@@ -1,0 +1,1 @@
+web : gunicorn capstone_marketplace.wsgi --log-file -

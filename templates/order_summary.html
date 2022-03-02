@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Your order list Summary</h1>
+<hr />
+
+<table class="table table-hover table-bordered text-center">
+    <tr class="text-center">
+        <th>The number item.</th>
+        <th>Your title</th>
+        <th>The price</th>
+    </tr>
+    {% for item in order.items.all %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.book.title }}
+            <span>
+                <a href="{% url 'cart:remove-from-cart' item.book.slug %}" class="text-danger">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </span>
+        </td>
+        <td>${{ item.book.price }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">
+            There are no ITEMS in your shopping cart
+        </td>
+    </tr>
+    {% endfor %}
+    {% if order.get_total %}
+    <tr>
+        <td colspan="2">
+            <strong class="pull-right">Your total order : </strong>
+        </td>
+        <td colspan="1">
+            <strong>${{ order.get_total }}</strong>
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td colspan="3">
+            <a href="{% url 'books:book-list' %}" class="btn btn-warning pull-left">
+                {% if order %}
+                You can continue to shopping with us
+                {% else %}
+                Add your ITEM to your shopping cart
+                {% endif %}
+            </a>
+        </td>
+    </tr>
+    {% if order.get_total %}
+    <tr>
+        <td colspan="3">
+            <a href="{% url 'cart:checkout' %}" class="btn btn-primary pull-left">
+                Checkout & Exit
+            </a>
+        </td>
+    </tr>
+    {% endif %}
+</table>
+
+{% endblock content %}
